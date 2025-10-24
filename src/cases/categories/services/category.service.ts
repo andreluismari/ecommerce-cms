@@ -1,35 +1,31 @@
-import { api } from '../../../lib/axios';
-import type { CategoryDto } from '../dtos/category.dto';
+import { api } from "../../../lib/axios";
+import type { CategoryDTO } from "../dtos/category.dto";
 
-const endpoint = '/categories';
+const _ENDPOINT = "/categories";
 
-export const categoryService = {
- 
-  async list(): Promise<CategoryDto[]> {
-    const result = await api.get(endpoint);
-    return result.data;
-  },
+export const CategoryService = {
 
- 
-  async create(data: CategoryDto): Promise<CategoryDto> {
-    const result = await api.post(endpoint, data);
-    return result.data;
-  },
+    async list(): Promise<CategoryDTO[]> {
+        const result = await api.get(_ENDPOINT);
+        return result.data;
+    },
 
- 
-  async getById(id: string): Promise<CategoryDto> {
-    const result = await api.get(${endpoint}/${id});
-    return result.data;
-  },
+    async create(category: CategoryDTO): Promise<CategoryDTO> {
+        const result = await api.post(_ENDPOINT, category);
+        return result.data;
+    },
 
-  
-  async update(id: string, data: CategoryDto): Promise<CategoryDto> {
-    const result = await api.put(${endpoint}/${id}, data);
-    return result.data;
-  },
+    async getById(id: string): Promise<CategoryDTO> {
+        const result = await api.get(`${_ENDPOINT}/${id}`);
+        return result.data;
+    },
 
-  
-  async delete(id: string): Promise<void> {
-    await api.delete(${endpoint}/${id});
-  },
+    async update(id: string, category: CategoryDTO): Promise<CategoryDTO> {
+        const result = await api.put(`${_ENDPOINT}/${id}`, category);
+        return result.data;
+    },
+
+    async delete(id: string): Promise<void> {
+        await api.delete(`${_ENDPOINT}/${id}`);
+    }
 };
