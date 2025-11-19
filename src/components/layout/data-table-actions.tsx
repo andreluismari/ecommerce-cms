@@ -1,37 +1,97 @@
-import { EditIcon } from "lucide-react"
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet"
 import { Button } from "../ui/button";
+import { useLocation, useNavigate } from "react-router-dom";
+import type React from "react";
+import { Tooltip } from "@radix-ui/react-tooltip";
+import { TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Trash2 } from "lucide-react";
 
-type DataTableActionProps = {
-    itemId: string | number;
-}
+type SidebarFormProps = {
+    title: string;
+    children: React.ReactNode;
+    onSave?: () => void;
+    onDelete?: () => void;
+    loading: boolean;
+};
 
-export function DataTableAction({
-    itemId
-}: DataTableActionProps) {
-    const location = useLocation();
+export function SidebarForm({
+    title,
+    children,
+    onSave,
+    onDelete,
+    loading
+}: SidebarFormProps) {
     const navigate = useNavigate();
+    const location = useLocation();
 
-    function handleNavigateToId() {
-        const path = location.pathname;
-        navigate(`${path} / ${itemId}`);
+    function handleCloseForm(open: boolean) {
+        if (!open) {
+            const currentPath = location.pathname;
+            const newPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+            navigate(newPath);
+        }
     }
-    return (
-        <Tooltip>
-            <TooltipTrigger>
-                <Button
-                    variant='outline'
-                    size='icon'
-                    onClick={handleNavigateToId}
+
+  return (
+    <Sheet open={true} onOpenChange ={handleCloseForm}>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>{title}</SheetTitle>
+          <SheetDescription>
+            Preencha os campos abaixo e clique em salvar.
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="px-8">
+            {children}
+        </div>
+        
+
+        <SheetFooter className="flex flex-row justify-between">
+            <div className="flex flex-row gap-1">
+
+                <Button 
+                type="button"
+                onClick={onSave}
+                disabled={loading}
                 >
-                    <EditIcon />
+                  Salvar
                 </Button>
 
-            </TooltipTrigger>
-            <TooltipContent>
-                <p>Editar/remover registro</p>
-            </TooltipContent>
-        </Tooltip>
-    )
+                <SheetClose asChild>
+                    <Button variant="outline">
+                        Cancelar
+                    </Button>
+                </SheetClose>
+
+            </div>
+            {onDelete && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                    <Button
+                        variant="destructive"
+                        size="icon"
+                        onClick={onDelete}
+                    >
+                      <Trash2/>
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p>Remover o registro</p>
+                </TooltipContent>
+            </Tooltip>
+            )}
+            
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  );
 }
