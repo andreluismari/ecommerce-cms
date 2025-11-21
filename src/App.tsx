@@ -10,9 +10,8 @@ import { SidebarProvider } from "./components/ui/sidebar"
 import { AppSidebar } from "./components/layout/app-sidebar"
 import { OrderLayout } from "./cases/orders/components/order-layout"
 import { OrderForm } from "./cases/orders/components/order-form"
-import { CustomerForm } from "./cases/customers/components/customer-form"
-import { CustomerLayout } from "./cases/customers/components/customer-layout"
-
+import { CustomerForm } from "./cases/costumers/components/customer-form"
+import { CustomerLayout } from "./cases/costumers/components/customer-layout"
 
 function App() {
 

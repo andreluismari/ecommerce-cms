@@ -14,7 +14,7 @@ export interface cityDTO {
 export interface CustomerDTO {
     id?: string;
     name: string;
-    address: string;
-    zipcode: string;
-    city: cityDTO;
+    address?: string;
+    zipcode?: string;
+    city?: cityDTO;
 }
